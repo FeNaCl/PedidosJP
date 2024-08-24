@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pedidos</title>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+      }
+    </style>
+</head>
+<body>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Produto(s)</th>
+                <th>CEP</th>
+                <th>Forma de Pagamento</th>
+                <th>Data</th>
+                <th>*</th>
+                <th>*</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pedido : ${pedidos}">
+                <td th:text="${pedido.idPedido}"></td>
+                <td>
+                    <ul>
+                        <li th:each="produto : ${pedido.produto}" th:text="${produto.descricaoProduto}"></li>
+                    </ul>
+                </td>
+                <td th:each="endereco : ${pedido.endereco}" th:text="${endereco.cep}"></td>
+                <td th:text="${pedido.formaPagamento.tipoPagamento}"></td>
+                <td th:text="${pedido.dataPedido}"></td>
+                <td><a th:href="@{'/pedido/excluir/' + ${pedido.idPedido}}">Excluir</a></td>
+                <td><a th:href="@{'/pedido/editar/' + ${pedido.idPedido}}">Editar</a></td>
+            </tr>
+        </tbody>
+    </table>
+    
+</body>
+</html>

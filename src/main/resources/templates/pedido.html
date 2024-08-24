@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Realizar Pedido</title>
+</head>
+<body>
+
+    <h1>Selecione o Endereço</h1>
+
+    <div th:if="${pedido}">
+        <input type="hidden" name="idPedido" th:value="${pedido.idPedido}">
+    </div>
+
+    <form action="/pedido/novo" method="POST">
+        <select name="idEndereco">
+            <option th:each="endereco : ${enderecos}"
+                    th:value="${endereco.idEndereco}"
+                    th:text="${endereco.rua} + ', ' + ${endereco.bairro} + ', ' + ${endereco.cep} + ', ' + ${endereco.cidade}"></option>
+        </select><br><br>
+
+        <h1>Selecione os Produtos</h1>
+        <div th:each="produto : ${produtos}">
+            <input type="checkbox" name="idProduto" th:value="${produto.idProduto}">
+            <label th:text="${produto.descricaoProduto}"></label><br><br>
+        </div>
+
+        <h1>Selecione a Forma de Pagamento</h1>
+        <!-- caso haja pedido -->
+        <div th:if="${pedido}">
+            <select name="idPagamento">
+                <option value="placeholder" selected>Forma de Pagamento</option>
+                <option th:each="pagamento : ${pagamentos}"
+                        th:value="${pagamento.idPagamento}"
+                        th:text="${pagamento.tipoPagamento}"
+                        th:selected="(${pagamento.formaPagamento.idPagamento} == ${formaPagamento.idPagamento})"></option>
+            </select><br><br>
+        </div>
+
+        <!-- default -->
+        <div th:unless="${pedido}">
+            <select name="idPagamento">
+                <option value="placeholder" selected>Forma de Pagamento</option>
+                <option th:each="pagamento : ${pagamentos}"
+                        th:value="${pagamento.idPagamento}"
+                        th:text="${pagamento.tipoPagamento}"></option>
+            </select><br><br>
+        </div>
+
+        <button type="submit">Fazer Pedido</button>
+    </form>
+</body>
+</html>
